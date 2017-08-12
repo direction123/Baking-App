@@ -60,7 +60,6 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_list, container, false);
 
-
         Recipe recipe = getArguments().getParcelable(RECIPE);
 
         TextView ingredientsTextView = (TextView) rootView.findViewById(R.id.ingredients_list);
@@ -86,10 +85,5 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
     @Override
     public void onClick(Step step) {
         mCallback.onStepSelected(step);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 }

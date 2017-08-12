@@ -13,8 +13,9 @@ import direction123.bakingapp.models.Step;
 public class StepListActivity extends AppCompatActivity implements StepListFragment.OnStepClickListener{
     private Recipe mRecipe;
     private boolean mTwoPane;
-    public static  final String RECIPE = "recipe";
 
+    private String RECIPE = "recipe";
+    private String STEP_ID = "step_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,14 @@ public class StepListActivity extends AppCompatActivity implements StepListFragm
                 mTwoPane = false;
             }
 
-
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            if (mRecipe != null) {
+            if(mRecipe != null) {
                 getSupportActionBar().setTitle(mRecipe.getNmae());
+            }
+        } else {
+            Recipe recipe = savedInstanceState.getParcelable(RECIPE);
+            if(recipe != null) {
+                getSupportActionBar().setTitle(recipe.getNmae());
             }
         }
     }
@@ -63,8 +68,21 @@ public class StepListActivity extends AppCompatActivity implements StepListFragm
         } else {
             Class destinationClass = StepDetailActivity.class;
             Intent intentToStepsActivity = new Intent(this, destinationClass);
-            intentToStepsActivity.putExtra(Intent.EXTRA_TEXT, step);
+            intentToStepsActivity.putExtra(RECIPE, mRecipe);
+            intentToStepsActivity.putExtra(STEP_ID, step.getId());
             startActivity(intentToStepsActivity);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(RECIPE, mRecipe);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRecipe = savedInstanceState.getParcelable(RECIPE);
     }
 }
