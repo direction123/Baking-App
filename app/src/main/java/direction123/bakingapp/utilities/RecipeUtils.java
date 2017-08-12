@@ -28,6 +28,16 @@ public class RecipeUtils
                 Recipe recipe = buildRecipe(r);
                 recipeList.add(recipe);
             }
+            for (int i = 0; i < recipeArray.length(); i++) {
+                JSONObject r = recipeArray.getJSONObject(i);
+                Recipe recipe = buildRecipe(r);
+                recipeList.add(recipe);
+            }
+            for (int i = 0; i < recipeArray.length(); i++) {
+                JSONObject r = recipeArray.getJSONObject(i);
+                Recipe recipe = buildRecipe(r);
+                recipeList.add(recipe);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

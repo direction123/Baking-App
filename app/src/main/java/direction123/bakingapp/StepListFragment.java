@@ -1,5 +1,6 @@
 package direction123.bakingapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +24,27 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
     private RecyclerView mRecyclerView;
     private StepAdapter mAdapter;
 
+    // Define a new interface OnStepClickListener that triggers a callback in the host activity
+    OnStepClickListener mCallback;
+    // OnStepClickListener interface, calls a method in the host activity named onStepSelected
+    public interface OnStepClickListener {
+        void onStepSelected(Step step);
+    }
+
+    // Override onAttach to make sure that the container activity has implemented the callback
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+            mCallback = (OnStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnImageClickListener");
+        }
+    }
     public static StepListFragment newInstance(Recipe recipe) {
         Bundle args = new Bundle();
         args.putParcelable(RECIPE, recipe);
@@ -62,7 +84,7 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
 
     @Override
     public void onClick(Step step) {
-        Toast.makeText(getContext(), step.getShortDescription(), Toast.LENGTH_SHORT).show();
+        mCallback.onStepSelected(step);
     }
 
     @Override

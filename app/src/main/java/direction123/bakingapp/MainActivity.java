@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         List<Recipe> recipeList = mAdapter.getRecipeList();
-        outState.putParcelableArrayList(RECIPE_LIST, new ArrayList<>(recipeList));
+        if(recipeList != null) {
+            outState.putParcelableArrayList(RECIPE_LIST, new ArrayList<>(recipeList));
+        }
     }
 }

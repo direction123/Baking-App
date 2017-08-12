@@ -5,10 +5,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import direction123.bakingapp.models.Recipe;
+import direction123.bakingapp.models.Step;
 
-public class StepListActivity extends AppCompatActivity {
+public class StepListActivity extends AppCompatActivity implements StepListFragment.OnStepClickListener{
     private Recipe mRecipe;
     private boolean mTwoPane;
     public static  final String RECIPE = "recipe";
@@ -49,6 +51,18 @@ public class StepListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(mRecipe != null) {
             getSupportActionBar().setTitle(mRecipe.getNmae());
+        }
+    }
+
+    @Override
+    public void onStepSelected(Step step) {
+        if(mTwoPane) {
+            Toast.makeText(this, "sssss" + step.getShortDescription(), Toast.LENGTH_SHORT).show();
+        } else {
+            Class destinationClass = StepDetailActivity.class;
+            Intent intentToStepsActivity = new Intent(this, destinationClass);
+            intentToStepsActivity.putExtra(Intent.EXTRA_TEXT, step);
+            startActivity(intentToStepsActivity);
         }
     }
 }
