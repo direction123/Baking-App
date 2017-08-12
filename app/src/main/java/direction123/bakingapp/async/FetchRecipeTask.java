@@ -3,6 +3,9 @@ package direction123.bakingapp.async;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -22,10 +25,21 @@ import direction123.bakingapp.utilities.RecipeUtils;
 public class FetchRecipeTask extends AsyncTask<Void, Void, List<Recipe>>{
     private RecyclerView mRecylerView;
     private RecipeAdapter mAdapter;
+    private ProgressBar mLoadingIndicator;
+    private TextView mErrorMessageDisplay;
 
-    public FetchRecipeTask(RecyclerView recyclerView, RecipeAdapter adapter) {
+    public FetchRecipeTask(RecyclerView recyclerView, RecipeAdapter adapter,
+                           ProgressBar loadingIndicator, TextView errorMessageDisplay) {
         this.mRecylerView = recyclerView;
         this.mAdapter = adapter;
+        this.mLoadingIndicator = loadingIndicator;
+        this.mErrorMessageDisplay = errorMessageDisplay;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -41,8 +55,25 @@ public class FetchRecipeTask extends AsyncTask<Void, Void, List<Recipe>>{
         }
     }
 
+    private void showRecipeView () {
+        mRecylerView.setVisibility(View.VISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+    }
+
+    private void showErrorMessageView () {
+        mRecylerView.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
     @Override
     protected void onPostExecute(List<Recipe> recipeList) {
-        mAdapter.setRecipeList(recipeList);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        if (recipeList != null) {
+            showRecipeView ();
+            mAdapter.setRecipeList(recipeList);
+        } else {
+            //show error if there is no internet connection
+            showErrorMessageView();
+        }
     }
 }

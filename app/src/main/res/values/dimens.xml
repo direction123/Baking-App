@@ -10,4 +10,5 @@
     <dimen name="body_text_size">18sp</dimen>
     <dimen name="recipe_item_title_text_size">24sp</dimen>
     <dimen name="recipe_item_subtitle_text_size">12sp</dimen>
+    <dimen name="progress_bar_length">42dp</dimen>
 </resources>

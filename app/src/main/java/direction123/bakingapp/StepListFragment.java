@@ -20,7 +20,6 @@ import direction123.bakingapp.models.Step;
 
 public class StepListFragment extends Fragment implements StepAdapter.stepAdapterOnClickHandler{
     public static final String RECIPE = "recipe";
-    public static final String STEP = "step";
     private RecyclerView mRecyclerView;
     private StepAdapter mAdapter;
 

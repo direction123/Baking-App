@@ -15,6 +15,7 @@ import java.util.List;
 
 import direction123.bakingapp.R;
 import direction123.bakingapp.models.Recipe;
+import direction123.bakingapp.models.Step;
 
 /**
  * Created by fangxiangwang on 8/9/17.
@@ -86,5 +87,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void setRecipeList(List<Recipe> recipeList){
         this.mRecipeList = recipeList;
         notifyDataSetChanged();
+    }
+
+    public List<Recipe> getRecipeList() {
+        return mRecipeList;
     }
 }

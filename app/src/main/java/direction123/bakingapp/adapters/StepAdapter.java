@@ -83,8 +83,4 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.stepViewHolder
         this.mstepList = stepList;
         notifyDataSetChanged();
     }
-
-    public List<Step> getStepList() {
-        return mstepList;
-    }
 }
