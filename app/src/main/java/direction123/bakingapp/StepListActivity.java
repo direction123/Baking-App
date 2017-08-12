@@ -21,36 +21,38 @@ public class StepListActivity extends AppCompatActivity implements StepListFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
 
-        Intent intentThatStartedThisActivity = getIntent();
-        if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                mRecipe = getIntent().getParcelableExtra(Intent.EXTRA_TEXT);
+        if (savedInstanceState == null) {
+            Intent intentThatStartedThisActivity = getIntent();
+            if (intentThatStartedThisActivity != null) {
+                if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
+                    mRecipe = getIntent().getParcelableExtra(Intent.EXTRA_TEXT);
+                }
             }
-        }
 
-        if (findViewById(R.id.stepListFragment) != null) {
-            StepListFragment stepListFragment = StepListFragment.newInstance(mRecipe);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.stepListFragment, stepListFragment)
-                    .commit();
-        }
+            if (findViewById(R.id.stepListFragment) != null) {
+                StepListFragment stepListFragment = StepListFragment.newInstance(mRecipe);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.stepListFragment, stepListFragment)
+                        .commit();
+            }
 
-        if (findViewById(R.id.stepDetailFragment) != null) {
-            mTwoPane = true;
-            StepDetailFragment stepDetailFragment = new StepDetailFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.stepDetailFragment, stepDetailFragment)
-                    .commit();
-        } else {
-            mTwoPane = false;
-        }
+            if (findViewById(R.id.stepDetailFragment) != null) {
+                mTwoPane = true;
+                StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.stepDetailFragment, stepDetailFragment)
+                        .commit();
+            } else {
+                mTwoPane = false;
+            }
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(mRecipe != null) {
-            getSupportActionBar().setTitle(mRecipe.getNmae());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (mRecipe != null) {
+                getSupportActionBar().setTitle(mRecipe.getNmae());
+            }
         }
     }
 

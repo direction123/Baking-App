@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,26 +60,26 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_list, container, false);
 
-        if(savedInstanceState == null) {
-            Recipe recipe = getArguments().getParcelable(RECIPE);
 
-            TextView ingredientsTextView = (TextView) rootView.findViewById(R.id.ingredients_list);
-            if (recipe != null) {
-                ingredientsTextView.setText(recipe.getIngredients());
-            }
+        Recipe recipe = getArguments().getParcelable(RECIPE);
 
-            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_steps);
-            GridLayoutManager layoutManager = new GridLayoutManager(
-                    getContext(),
-                    getResources().getInteger(R.integer.grid_columns));
-            mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.setHasFixedSize(true);
-            mAdapter = new StepAdapter(this);
-            mRecyclerView.setAdapter(mAdapter);
-            if (recipe != null) {
-                mAdapter.setstepList(recipe.getStepList());
-            }
+        TextView ingredientsTextView = (TextView) rootView.findViewById(R.id.ingredients_list);
+        if (recipe != null) {
+            ingredientsTextView.setText(recipe.getIngredients());
         }
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_steps);
+        GridLayoutManager layoutManager = new GridLayoutManager(
+                getContext(),
+                getResources().getInteger(R.integer.grid_columns));
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new StepAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+        if (recipe != null) {
+            mAdapter.setstepList(recipe.getStepList());
+        }
+
         return rootView;
     }
 

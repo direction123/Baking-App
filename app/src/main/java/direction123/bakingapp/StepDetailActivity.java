@@ -11,10 +11,14 @@ public class StepDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_detail);
 
-        StepDetailFragment stepDetailFragment = new StepDetailFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.stepDetailFragment, stepDetailFragment)
-                .commit();
+        if (savedInstanceState == null) {
+            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.stepDetailFragment, stepDetailFragment)
+                    .commit();
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
