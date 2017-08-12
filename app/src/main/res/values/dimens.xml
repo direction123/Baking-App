@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="grid_columns">1</integer>
+    <dimen name="layout_border">2dp</dimen>
+    <dimen name="layout_padding_s">8dp</dimen>
+    <dimen name="layout_padding_m">16dp</dimen>
+    <dimen name="layout_padding_l">24dp</dimen>
+    <dimen name="layout_padding_xl">32dp</dimen>
+    <dimen name="layout_padding_xxl">40dp</dimen>
+    <dimen name="body_text_size">18sp</dimen>
+    <dimen name="recipe_item_title_text_size">24sp</dimen>
+    <dimen name="recipe_item_subtitle_text_size">12sp</dimen>
+</resources>

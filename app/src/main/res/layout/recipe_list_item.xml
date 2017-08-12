@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_padding_s">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/recipe_item_thumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                android:padding="@dimen/layout_padding_m"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_local_dining" />
+
+            <TextView
+                android:id="@+id/recipe_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/recipe_item_thumbnail"
+                android:paddingLeft="@dimen/layout_padding_s"
+                android:paddingTop="@dimen/layout_padding_s"
+                android:textSize="@dimen/recipe_item_title_text_size" />
+
+            <TextView
+                android:id="@+id/recipe_item_servings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recipe_item_name"
+                android:layout_toRightOf="@+id/recipe_item_thumbnail"
+                android:paddingLeft="@dimen/layout_padding_s"
+                android:paddingTop="@dimen/layout_padding_s"
+                android:textSize="@dimen/recipe_item_subtitle_text_size" />
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
