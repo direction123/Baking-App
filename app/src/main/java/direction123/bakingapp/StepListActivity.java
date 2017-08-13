@@ -40,7 +40,8 @@ public class StepListActivity extends AppCompatActivity implements StepListFragm
 
             if (findViewById(R.id.stepDetailFragment) != null) {
                 mTwoPane = true;
-                StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                StepDetailFragment stepDetailFragment =
+                        StepDetailFragment.newInstance(mRecipe, 0);;
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.stepDetailFragment, stepDetailFragment)
@@ -64,7 +65,12 @@ public class StepListActivity extends AppCompatActivity implements StepListFragm
     @Override
     public void onStepSelected(Step step) {
         if(mTwoPane) {
-            Toast.makeText(this, "sssss" + step.getShortDescription(), Toast.LENGTH_SHORT).show();
+            StepDetailFragment stepDetailFragment =
+                    StepDetailFragment.newInstance(mRecipe, step.getId());;
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.stepDetailFragment, stepDetailFragment)
+                    .commit();
         } else {
             Class destinationClass = StepDetailActivity.class;
             Intent intentToStepsActivity = new Intent(this, destinationClass);

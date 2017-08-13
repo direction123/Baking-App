@@ -1,7 +1,11 @@
 package direction123.bakingapp;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +50,20 @@ public class StepDetailFragment extends Fragment {
 
         mRecipe = getArguments().getParcelable(RECIPE);
         mStepId = getArguments().getInt(STEP_ID, 0);
-        showStepDetail(mRecipe, mStepId);
+        if(isTablet()) {
+            showStepDetailTablet(mRecipe, mStepId);
+        } else {
+            showStepDetail(mRecipe, mStepId);
+        }
         mPreButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(mStepId > 0) {
                     mStepId--;
-                    showStepDetail(mRecipe, mStepId);
+                    if(isTablet()) {
+                        showStepDetailTablet(mRecipe, mStepId);
+                    } else {
+                        showStepDetail(mRecipe, mStepId);
+                    }
                 }
             }
         });
@@ -60,7 +72,11 @@ public class StepDetailFragment extends Fragment {
                 if(mRecipe != null) {
                     if(mStepId < mRecipe.getStepList().size() - 1) {
                         mStepId++;
-                        showStepDetail(mRecipe, mStepId);
+                        if(isTablet()) {
+                            showStepDetailTablet(mRecipe, mStepId);
+                        } else {
+                            showStepDetail(mRecipe, mStepId);
+                        }
                     }
                 }
             }
@@ -87,9 +103,24 @@ public class StepDetailFragment extends Fragment {
             }
 
             Step step = recipe.getStepList().get(stepId);
-            mDescriptionView.setText(step.getDescription());
+            mDescriptionView.setText(Html.escapeHtml(step.getDescription()));
 
             mStepIndexView.setText("Step " + stepId + "/" + (stepList.size() - 1));
         }
+}
+
+    private void showStepDetailTablet(Recipe recipe, int stepId) {
+        if(recipe != null) {
+            mPreButton.setVisibility(View.INVISIBLE);
+            mNextButton.setVisibility(View.INVISIBLE);
+
+            Step step = recipe.getStepList().get(stepId);
+            mDescriptionView.setText(step.getDescription());
+        }
+}
+
+    private boolean isTablet() {
+        Configuration config = getResources().getConfiguration();
+        return config.smallestScreenWidthDp >= 600;
     }
 }
