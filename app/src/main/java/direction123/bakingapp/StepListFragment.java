@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,17 +17,22 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import direction123.bakingapp.adapters.StepAdapter;
 import direction123.bakingapp.models.Recipe;
 import direction123.bakingapp.models.Step;
 
 public class StepListFragment extends Fragment implements StepAdapter.stepAdapterOnClickHandler{
-    public static final String RECIPE = "recipe";
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerview_steps) RecyclerView mRecyclerView;
+    @BindView(R.id.ingredients_list) TextView ingredientsTextView;
+
     private StepAdapter mAdapter;
+    public static final String RECIPE = "recipe";
 
     // Define a new interface OnStepClickListener that triggers a callback in the host activity
     OnStepClickListener mCallback;
+
     // OnStepClickListener interface, calls a method in the host activity named onStepSelected
     public interface OnStepClickListener {
         void onStepSelected(Step step);
@@ -59,26 +65,20 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_list, container, false);
+        ButterKnife.bind(this, rootView);
 
-        Recipe recipe = getArguments().getParcelable(RECIPE);
-
-        TextView ingredientsTextView = (TextView) rootView.findViewById(R.id.ingredients_list);
-        if (recipe != null) {
-            ingredientsTextView.setText(recipe.getIngredients());
-        }
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_steps);
-        GridLayoutManager layoutManager = new GridLayoutManager(
-                getContext(),
-                getResources().getInteger(R.integer.grid_columns));
+        final int columns = getResources().getInteger(R.integer.grid_columns);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), columns);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new StepAdapter(this);
+        mAdapter = new StepAdapter(getContext(), this);
         mRecyclerView.setAdapter(mAdapter);
-        if (recipe != null) {
-            mAdapter.setstepList(recipe.getStepList());
-        }
 
+        Recipe recipe = getArguments().getParcelable(RECIPE);
+        if (recipe != null) {
+            ingredientsTextView.setText(recipe.getIngredients());
+            mAdapter.setStepList(recipe.getStepList());
+        }
         return rootView;
     }
 
@@ -86,4 +86,5 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
     public void onClick(Step step) {
         mCallback.onStepSelected(step);
     }
+
 }

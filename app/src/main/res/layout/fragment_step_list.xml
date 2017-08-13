@@ -45,6 +45,7 @@
             android:id="@+id/recyclerview_steps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_padding_m"
             />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

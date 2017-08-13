@@ -12,6 +12,7 @@
         card_view:contentPaddingBottom="@dimen/layout_border">
 
         <LinearLayout
+            android:id="@+id/step_item_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
