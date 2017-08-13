@@ -63,7 +63,7 @@ public class RecipeUtils
             for (int i = 0; i < stepJSONArray.length(); i++) {
                 JSONObject stepJSON = stepJSONArray.getJSONObject(i);
                 Step step = new Step(
-                        stepJSON.getInt("id"),
+                        i,
                         stepJSON.getString("shortDescription"),
                         stepJSON.getString("description"),
                         stepJSON.getString("videoURL")
