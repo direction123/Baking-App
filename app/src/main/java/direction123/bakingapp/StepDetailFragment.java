@@ -4,17 +4,17 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import direction123.bakingapp.models.Recipe;
 import direction123.bakingapp.models.Step;
 
@@ -24,10 +24,10 @@ public class StepDetailFragment extends Fragment {
     private Recipe mRecipe;
     private int mStepId;
 
-    private TextView mDescriptionView;
-    private TextView mStepIndexView;
-    private ImageButton mPreButton;
-    private ImageButton mNextButton;
+    @BindView(R.id.step_description) TextView mDescriptionView;
+    @BindView(R.id.step_prev_button) ImageButton mPreButton;
+    @BindView(R.id.step_next_button) ImageButton mNextButton;
+    @BindView(R.id.step_index) TextView mStepIndexView;
 
     public static StepDetailFragment newInstance(Recipe recipe, int stepId) {
         Bundle args = new Bundle();
@@ -43,10 +43,7 @@ public class StepDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
-        mDescriptionView = (TextView) rootView.findViewById(R.id.step_description);
-        mPreButton = (ImageButton) rootView.findViewById(R.id.step_prev_button);
-        mNextButton = (ImageButton) rootView.findViewById(R.id.step_next_button);
-        mStepIndexView = (TextView) rootView.findViewById(R.id.step_index);
+        ButterKnife.bind(this, rootView);
 
         mRecipe = getArguments().getParcelable(RECIPE);
         mStepId = getArguments().getInt(STEP_ID, 0);

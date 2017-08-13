@@ -13,15 +13,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import direction123.bakingapp.adapters.RecipeAdapter;
 import direction123.bakingapp.async.FetchRecipeTask;
 import direction123.bakingapp.models.Recipe;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerview_recipes) RecyclerView mRecyclerView;
+    @BindView(R.id.loading_indicator) ProgressBar mLoadingIndicator;
+    @BindView(R.id.error_message_display) TextView mErrorMessageDisplay;
+
     private RecipeAdapter mAdapter;
-    private ProgressBar mLoadingIndicator;
-    private TextView mErrorMessageDisplay;
     public static final String RECIPE_LIST = "recipe_list";
 
     @Override
@@ -29,16 +32,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_recipes);
+        ButterKnife.bind(this);
+
         final int columns = getResources().getInteger(R.integer.grid_columns);
         GridLayoutManager layoutManager= new GridLayoutManager(this, columns);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RecipeAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        mErrorMessageDisplay = (TextView) findViewById(R.id.error_message_display);
 
         if(savedInstanceState != null) {
             List<Recipe> recipeList = savedInstanceState.getParcelableArrayList(RECIPE_LIST);
