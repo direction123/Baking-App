@@ -39,6 +39,7 @@ public class StepDetailFragment extends Fragment {
     private String VIDEO_PLAY_POSITION = "video_play_position";
     private Recipe mRecipe;
     private int mStepId;
+    private long mCurrentPosition = 0;
     private SimpleExoPlayer mExoPlayer;
     private boolean mPlayWhenReady = true;
 
@@ -67,6 +68,10 @@ public class StepDetailFragment extends Fragment {
 
         mRecipe = getArguments().getParcelable(RECIPE);
         mStepId = getArguments().getInt(STEP_ID, 0);
+        if (savedInstanceState != null) {
+            mStepId = savedInstanceState.getInt("stepId");
+            mCurrentPosition = savedInstanceState.getLong("currentPosition");
+        }
         if(isTablet()) {
             showStepDetailTablet(mRecipe, mStepId);
         } else {
@@ -102,7 +107,7 @@ public class StepDetailFragment extends Fragment {
         if (mRecipe != null ) {
             Step step = mRecipe.getStepList().get(mStepId);
             if (step != null) {
-                initializePlayer(Uri.parse(step.getVideoURL()));
+                initializePlayer(Uri.parse(step.getVideoURL()), mCurrentPosition);
             }
         }
 
@@ -119,7 +124,7 @@ public class StepDetailFragment extends Fragment {
         return rootView;
     }
 
-    private void initializePlayer(Uri mediaUri) {
+    private void initializePlayer(Uri mediaUri, long currentPosition) {
         if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(
@@ -128,12 +133,12 @@ public class StepDetailFragment extends Fragment {
                     new DefaultLoadControl());
             mPlayerView.setPlayer(mExoPlayer);
             mExoPlayer.setPlayWhenReady(mPlayWhenReady);
-            if(mediaUri != null) {
-                MediaSource mediaSource = buildMediaSource(mediaUri);
-                if (mExoPlayer != null && mediaSource != null) {
-                    mExoPlayer.prepare(mediaSource);
-                    mExoPlayer.seekTo(0);
-                }
+        }
+        if(mediaUri != null) {
+            MediaSource mediaSource = buildMediaSource(mediaUri);
+            if (mExoPlayer != null && mediaSource != null) {
+                mExoPlayer.prepare(mediaSource);
+                mExoPlayer.seekTo(currentPosition);
             }
         }
     }
@@ -182,7 +187,7 @@ public class StepDetailFragment extends Fragment {
             setDescriptionView(step);
             releasePlayer();
             if(step != null) {
-                initializePlayer(Uri.parse(step.getVideoURL()));
+                initializePlayer(Uri.parse(step.getVideoURL()), 0);
             }
             mStepIndexView.setText("Step " + stepId + "/" + (stepList.size() - 1));
         }
@@ -197,7 +202,7 @@ public class StepDetailFragment extends Fragment {
             setDescriptionView(step);
             releasePlayer();
             if(step != null) {
-                initializePlayer(Uri.parse(step.getVideoURL()));
+                initializePlayer(Uri.parse(step.getVideoURL()), 0);
             }
         }
     }
@@ -225,5 +230,12 @@ public class StepDetailFragment extends Fragment {
 
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("currentPosition", mExoPlayer.getCurrentPosition());
+        outState.putInt("stepId", mStepId);
     }
 }
