@@ -115,6 +115,15 @@ public class StepDetailFragment extends Fragment {
             mDescriptionView.setText(step.getDescription());
         }
 }
+    private void setDescriptionView(Step step) {
+        if(step != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                mDescriptionView.setText(Html.fromHtml(step.getDescription(), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                mDescriptionView.setText(Html.fromHtml(step.getDescription()));
+            }
+        }
+    }
 
     private boolean isTablet() {
         Configuration config = getResources().getConfiguration();
