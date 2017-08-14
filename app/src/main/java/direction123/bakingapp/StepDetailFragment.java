@@ -1,6 +1,7 @@
 package direction123.bakingapp;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ import direction123.bakingapp.models.Step;
 public class StepDetailFragment extends Fragment {
     private static String RECIPE = "recipe";
     private static String STEP_ID = "step_id";
+    private String VIDEO_PLAY_POSITION = "video_play_position";
     private Recipe mRecipe;
     private int mStepId;
     private SimpleExoPlayer mExoPlayer;
@@ -97,15 +99,22 @@ public class StepDetailFragment extends Fragment {
             }
         });
 
-
-
-        if(mRecipe != null ) {
+        if (mRecipe != null ) {
             Step step = mRecipe.getStepList().get(mStepId);
-            if(step != null) {
+            if (step != null) {
                 initializePlayer(Uri.parse(step.getVideoURL()));
             }
         }
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !isTablet()) {
+            hideSystemUi();
+            int videoViewPadding = (int) getResources().getDimension(R.dimen.layout_padding_s);
+            mPlayerView.getLayoutParams().height = getScreenHeight() - videoViewPadding * 2;
+            mStepIndexView.setVisibility(View.GONE);
+            mDescriptionView.setVisibility(View.GONE);
+            mNextButton.setVisibility(View.GONE);
+            mPreButton.setVisibility(View.GONE);
+        }
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -214,14 +223,7 @@ public class StepDetailFragment extends Fragment {
         releasePlayer();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        int orientation = newConfig.orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTablet()) {
-            Log.d("tag", "Landscape");
-        } else {
-
-        }
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 }

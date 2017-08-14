@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryLight"
             android:text="@string/hello_blank_fragment"
+            android:layout_marginTop="@dimen/layout_padding_m"
             android:padding="@dimen/layout_padding_m"
             android:textSize="@dimen/body_text_size"/>
 
