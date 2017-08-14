@@ -114,7 +114,7 @@ public class StepDetailFragment extends Fragment {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !isTablet()) {
             hideSystemUi();
             int videoViewPadding = (int) getResources().getDimension(R.dimen.layout_padding_s);
-            mPlayerView.getLayoutParams().height = getScreenHeight() - videoViewPadding * 2;
+            mPlayerView.getLayoutParams().height = getScreenHeight() - videoViewPadding * 3;
             mStepIndexView.setVisibility(View.GONE);
             mDescriptionView.setVisibility(View.GONE);
             mNextButton.setVisibility(View.GONE);
