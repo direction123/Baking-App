@@ -1,6 +1,7 @@
 package direction123.bakingapp;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -10,6 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.List;
 
@@ -23,11 +37,15 @@ public class StepDetailFragment extends Fragment {
     private static String STEP_ID = "step_id";
     private Recipe mRecipe;
     private int mStepId;
+    private SimpleExoPlayer mExoPlayer;
+    private boolean mPlayWhenReady = true;
 
     @BindView(R.id.step_description) TextView mDescriptionView;
     @BindView(R.id.step_prev_button) ImageButton mPreButton;
     @BindView(R.id.step_next_button) ImageButton mNextButton;
     @BindView(R.id.step_index) TextView mStepIndexView;
+    @BindView(R.id.step_video) SimpleExoPlayerView mPlayerView;
+
 
     public static StepDetailFragment newInstance(Recipe recipe, int stepId) {
         Bundle args = new Bundle();
@@ -81,8 +99,60 @@ public class StepDetailFragment extends Fragment {
 
 
 
+        if(mRecipe != null ) {
+            Step step = mRecipe.getStepList().get(mStepId);
+            if(step != null) {
+                initializePlayer(Uri.parse(step.getVideoURL()));
+            }
+        }
+
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    private void initializePlayer(Uri mediaUri) {
+        if (mExoPlayer == null) {
+            // Create an instance of the ExoPlayer.
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(
+                    getContext(),
+                    new DefaultTrackSelector(),
+                    new DefaultLoadControl());
+            mPlayerView.setPlayer(mExoPlayer);
+            mExoPlayer.setPlayWhenReady(mPlayWhenReady);
+            if(mediaUri != null) {
+                MediaSource mediaSource = buildMediaSource(mediaUri);
+                if (mExoPlayer != null && mediaSource != null) {
+                    mExoPlayer.prepare(mediaSource);
+                    mExoPlayer.seekTo(0);
+                }
+            }
+        }
+    }
+
+    private void releasePlayer() {
+        if(mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
+    //reference: https://codelabs.developers.google.com/codelabs/exoplayer-intro/index.html?index=..%2F..%2Findex#2
+    private void hideSystemUi() {
+        mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    private MediaSource buildMediaSource(Uri mediaUri) {
+        String userAgent = Util.getUserAgent(getContext(), "Baking App");
+        MediaSource mediaSource = new ExtractorMediaSource(mediaUri,
+                new DefaultDataSourceFactory(getContext(), userAgent),
+                new DefaultExtractorsFactory(), null, null);
+        return mediaSource;
     }
 
     private void showStepDetail(Recipe recipe, int stepId) {
@@ -100,8 +170,11 @@ public class StepDetailFragment extends Fragment {
             }
 
             Step step = recipe.getStepList().get(stepId);
-            mDescriptionView.setText(Html.escapeHtml(step.getDescription()));
-
+            setDescriptionView(step);
+            releasePlayer();
+            if(step != null) {
+                initializePlayer(Uri.parse(step.getVideoURL()));
+            }
             mStepIndexView.setText("Step " + stepId + "/" + (stepList.size() - 1));
         }
 }
@@ -112,9 +185,14 @@ public class StepDetailFragment extends Fragment {
             mNextButton.setVisibility(View.INVISIBLE);
 
             Step step = recipe.getStepList().get(stepId);
-            mDescriptionView.setText(step.getDescription());
+            setDescriptionView(step);
+            releasePlayer();
+            if(step != null) {
+                initializePlayer(Uri.parse(step.getVideoURL()));
+            }
         }
-}
+    }
+
     private void setDescriptionView(Step step) {
         if(step != null) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -128,5 +206,22 @@ public class StepDetailFragment extends Fragment {
     private boolean isTablet() {
         Configuration config = getResources().getConfiguration();
         return config.smallestScreenWidthDp >= 600;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        releasePlayer();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int orientation = newConfig.orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTablet()) {
+            Log.d("tag", "Landscape");
+        } else {
+
+        }
     }
 }
