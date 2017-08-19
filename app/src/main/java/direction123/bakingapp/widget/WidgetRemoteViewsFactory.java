@@ -50,6 +50,9 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
                 mContext.getPackageName(), R.layout.widget_list_item
         );
         remoteViews.setTextViewText(R.id.widget_recipe_name, String.valueOf(mFavoriteRecipeList.get(position)));
+        remoteViews.setTextViewText(R.id.widget_recipe_servings, String.valueOf(mFavoriteRecipeList.get(position)));
+        remoteViews.setTextViewText(R.id.widget_recipe_ingredients, String.valueOf(mFavoriteRecipeList.get(position)));
+
         return remoteViews;
     }
 
