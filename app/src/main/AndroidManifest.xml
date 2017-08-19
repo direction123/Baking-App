@@ -9,7 +9,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="direction123.bakingapp.applications.MyApplication">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop">
@@ -52,6 +53,13 @@
         <service
             android:name=".widget.WidgetRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <meta-data android:name="AA_DB_NAME" android:value="Recipes" />
+        <meta-data android:name="AA_DB_VERSION" android:value="2" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="direction123.bakingapp.data.Ingredient" />
+
     </application>
 
 </manifest>

@@ -1,16 +1,15 @@
 package direction123.bakingapp.applications;
 
-import android.app.Application;
-
-import com.facebook.stetho.Stetho;
+import com.activeandroid.ActiveAndroid;
 
 /**
  * Created by fangxiangwang on 8/19/17.
  */
 
-public class MyApplication extends ActiveAndroidApplication {
+public class ActiveAndroidApplication  extends  StethoApplication{
     @Override
     public void onCreate() {
         super.onCreate();
+        ActiveAndroid.initialize(this);
     }
 }
