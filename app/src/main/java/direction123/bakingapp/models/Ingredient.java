@@ -2,32 +2,47 @@ package direction123.bakingapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by fangxiangwang on 8/9/17.
  */
 
 public class Ingredient implements Parcelable {
-    private double mQuantity;
-    private String mMeasure;
-    private String mIngredient;
 
-    public Ingredient(double quantity, String measure, String ingredient) {
-        this.mQuantity = quantity;
-        this.mMeasure = measure;
-        this.mIngredient = ingredient;
-    }
+    @SerializedName("quantity")
+    @Expose
+    private double mQuantity;
+    @SerializedName("measure")
+    @Expose
+    private String mMeasure;
+    @SerializedName("ingredient")
+    @Expose
+    private String mIngredient;
 
     public double getQuantity() {
         return mQuantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.mQuantity = quantity;
     }
 
     public String getMeasure() {
         return mMeasure;
     }
 
+    public void setMeasure(String measure) {
+        this.mMeasure = measure;
+    }
+
     public String getIngredient() {
         return mIngredient;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.mIngredient = ingredient;
     }
 
     @Override

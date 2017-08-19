@@ -22,6 +22,7 @@ import direction123.bakingapp.utilities.RecipeUtils;
  * Created by fangxiangwang on 8/9/17.
  */
 
+/*
 public class FetchRecipeTask extends AsyncTask<Void, Void, List<Recipe>>{
     private RecyclerView mRecylerView;
     private RecipeAdapter mAdapter;
@@ -77,3 +78,4 @@ public class FetchRecipeTask extends AsyncTask<Void, Void, List<Recipe>>{
         }
     }
 }
+*/

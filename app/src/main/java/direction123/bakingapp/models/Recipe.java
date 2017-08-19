@@ -6,36 +6,52 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by fangxiangwang on 8/9/17.
  */
 
 public class Recipe implements Parcelable {
-    int mId;
-    String mName;
-    List<Ingredient> mIngredients;
-    List<Step> mSteps;
-    int mServings;
+    @SerializedName("id")
+    @Expose
+    private int mId;
+    @SerializedName("name")
+    @Expose
+    private String mName;
+    @SerializedName("ingredients")
+    @Expose
+    private List<Ingredient> mIngredients = null;
+    @SerializedName("steps")
+    @Expose
+    private List<Step> mSteps = null;
+    @SerializedName("servings")
+    @Expose
+    private int mServings;
+    @SerializedName("image")
+    @Expose
+    private String mImage;
 
-    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings) {
-        this.mId = id;
-        this.mName = name;
-        this.mIngredients = ingredients;
-        this.mSteps = steps;
-        this.mServings = servings;
+    public int getId() {
+        return mId;
     }
 
-    public String getNmae() {
+    public void setId(int id) {
+        this.mId = id;
+    }
+
+    public String getName() {
         return mName;
     }
 
-    public int getServings() {
-        return mServings;
+    public void setName(String name) {
+        this.mName = name;
     }
 
     public String getIngredients() {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < mIngredients.size(); i++) {
+        for (int i = 0; i < mIngredients.size(); i++) {
             sb.append("\u2022 ");
             sb.append(mIngredients.get(i).getIngredient());
             sb.append(" (");
@@ -48,8 +64,28 @@ public class Recipe implements Parcelable {
         return sb.toString();
     }
 
-    public List<Step> getStepList() {
+    public List<Step> getSteps() {
         return mSteps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.mSteps = steps;
+    }
+
+    public int getServings() {
+        return mServings;
+    }
+
+    public void setServings(int servings) {
+        this.mServings = servings;
+    }
+
+    public String getImage() {
+        return mImage;
+    }
+
+    public void setImage(String image) {
+        this.mImage = image;
     }
 
     @Override

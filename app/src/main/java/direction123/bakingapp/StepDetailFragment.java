@@ -92,7 +92,7 @@ public class StepDetailFragment extends Fragment {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(mRecipe != null) {
-                    if(mStepId < mRecipe.getStepList().size() - 1) {
+                    if(mStepId < mRecipe.getSteps().size() - 1) {
                         mStepId++;
                         if(isTablet()) {
                             showStepDetailTablet(mRecipe, mStepId);
@@ -105,7 +105,7 @@ public class StepDetailFragment extends Fragment {
         });
 
         if (mRecipe != null ) {
-            Step step = mRecipe.getStepList().get(mStepId);
+            Step step = mRecipe.getSteps().get(mStepId);
             if (step != null) {
                 initializePlayer(Uri.parse(step.getVideoURL()), mCurrentPosition);
             }
@@ -171,7 +171,7 @@ public class StepDetailFragment extends Fragment {
 
     private void showStepDetail(Recipe recipe, int stepId) {
         if(recipe != null) {
-            List<Step> stepList = recipe.getStepList();
+            List<Step> stepList = recipe.getSteps();
             if(stepId == 0) {
                 mPreButton.setVisibility(View.INVISIBLE);
             } else {
@@ -183,7 +183,7 @@ public class StepDetailFragment extends Fragment {
                 mNextButton.setVisibility(View.VISIBLE);
             }
 
-            Step step = recipe.getStepList().get(stepId);
+            Step step = recipe.getSteps().get(stepId);
             setDescriptionView(step);
             releasePlayer();
             if(step != null) {
@@ -198,7 +198,7 @@ public class StepDetailFragment extends Fragment {
             mPreButton.setVisibility(View.INVISIBLE);
             mNextButton.setVisibility(View.INVISIBLE);
 
-            Step step = recipe.getStepList().get(stepId);
+            Step step = recipe.getSteps().get(stepId);
             setDescriptionView(step);
             releasePlayer();
             if(step != null) {

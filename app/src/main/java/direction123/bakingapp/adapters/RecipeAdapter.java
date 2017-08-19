@@ -75,7 +75,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipe recipe = mRecipeList.get(position);
 
         TextView nameView = holder.mNameView;
-        String name = recipe.getNmae();
+        String name = recipe.getName();
         nameView.setText(name);
 
         TextView servingView = holder.mServingsView;

@@ -16,8 +16,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import direction123.bakingapp.adapters.RecipeAdapter;
-import direction123.bakingapp.async.FetchRecipeTask;
+//import direction123.bakingapp.async.FetchRecipeTask;
 import direction123.bakingapp.models.Recipe;
+import direction123.bakingapp.models.SOService;
+import direction123.bakingapp.utilities.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
     @BindView(R.id.recyclerview_recipes) RecyclerView mRecyclerView;
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     @BindView(R.id.error_message_display) TextView mErrorMessageDisplay;
 
     private RecipeAdapter mAdapter;
+    private SOService mService;
     public static final String RECIPE_LIST = "recipe_list";
 
     @Override
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        mService = ApiUtils.getSOService();
 
         final int columns = getResources().getInteger(R.integer.grid_columns);
         GridLayoutManager layoutManager= new GridLayoutManager(this, columns);
@@ -60,7 +68,27 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     private void loadRecipeData() {
-        new FetchRecipeTask(mRecyclerView, mAdapter, mLoadingIndicator, mErrorMessageDisplay).execute();
+      //  new FetchRecipeTask(mRecyclerView, mAdapter, mLoadingIndicator, mErrorMessageDisplay).execute();
+        mService.getRecipes().enqueue(new Callback<List<Recipe>>() {
+            @Override
+            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+
+                if(response.isSuccessful()) {
+                    mAdapter.setRecipeList(response.body());
+                    Log.d("MainActivity", "posts loaded from API");
+                    Log.v("xxx", String.valueOf(response.body().size()));
+                }else {
+                    int statusCode  = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                Log.d("MainActivity", "error loading from API");
+
+            }
+        });
     }
 
     @Override

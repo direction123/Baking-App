@@ -77,7 +77,7 @@ public class StepListFragment extends Fragment implements StepAdapter.stepAdapte
         Recipe recipe = getArguments().getParcelable(RECIPE);
         if (recipe != null) {
             ingredientsTextView.setText(recipe.getIngredients());
-            mAdapter.setStepList(recipe.getStepList());
+            mAdapter.setStepList(recipe.getSteps());
         }
         return rootView;
     }

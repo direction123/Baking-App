@@ -2,38 +2,68 @@ package direction123.bakingapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by fangxiangwang on 8/9/17.
  */
 
 public class Step implements Parcelable {
+    @SerializedName("id")
+    @Expose
     private int mId;
+    @SerializedName("shortDescription")
+    @Expose
     private String mShortDescription;
+    @SerializedName("description")
+    @Expose
     private String mDescription;
+    @SerializedName("videoURL")
+    @Expose
     private String mVideoURL;
-
-    public Step(int id, String shortDescription, String description, String videoURL) {
-        this.mId = id;
-        this.mShortDescription = shortDescription;
-        this.mDescription = description;
-        this.mVideoURL = videoURL;
-    }
+    @SerializedName("thumbnailURL")
+    @Expose
+    private String mThumbnailURL;
 
     public int getId() {
         return mId;
+    }
+
+    public void setId(int id) {
+        this.mId = id;
     }
 
     public String getShortDescription() {
         return mShortDescription;
     }
 
+    public void setShortDescription(String shortDescription) {
+        this.mShortDescription = shortDescription;
+    }
+
     public String getDescription() {
         return mDescription;
     }
 
+    public void setDescription(String description) {
+        this.mDescription = description;
+    }
+
     public String getVideoURL() {
         return mVideoURL;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.mVideoURL = videoURL;
+    }
+
+    public String getThumbnailURL() {
+        return mThumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.mThumbnailURL = thumbnailURL;
     }
 
     @Override

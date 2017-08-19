@@ -39,12 +39,12 @@ public class StepDetailActivity extends AppCompatActivity {
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             if(mRecipe != null) {
-                getSupportActionBar().setTitle(mRecipe.getNmae());
+                getSupportActionBar().setTitle(mRecipe.getName());
             }
         } else {
             Recipe recipe = savedInstanceState.getParcelable(RECIPE);
             if(recipe != null) {
-                getSupportActionBar().setTitle(recipe.getNmae());
+                getSupportActionBar().setTitle(recipe.getName());
             }
         }
     }
