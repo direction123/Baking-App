@@ -93,7 +93,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.stepViewHolder
 
         holder.mLinearLayout.setBackgroundColor(
                 mSelectedPosition == position ?
-                        ContextCompat.getColor(mContext, R.color.colorPrimaryLight):
+                        ContextCompat.getColor(mContext, R.color.colorPrimaryDark):
                         ContextCompat.getColor(mContext, R.color.colorWhite)
         );
     }
