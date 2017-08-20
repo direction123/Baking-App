@@ -55,12 +55,13 @@
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <meta-data android:name="AA_DB_NAME" android:value="recipes" />
-        <meta-data android:name="AA_DB_VERSION" android:value="7" />
+        <meta-data android:name="AA_DB_VERSION" android:value="9" />
         <meta-data
             android:name="AA_MODELS"
             android:value="direction123.bakingapp.data.RecipeDB,
                     direction123.bakingapp.data.IngredientDB,
-                    direction123.bakingapp.data.StepDB" />
+                    direction123.bakingapp.data.StepDB,
+                    direction123.bakingapp.data.RecipeWidget"/>
 
     </application>
 

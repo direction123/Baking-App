@@ -1,5 +1,7 @@
 package direction123.bakingapp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import direction123.bakingapp.adapters.RecipeAdapter;
 import direction123.bakingapp.models.Recipe;
 import direction123.bakingapp.models.SOService;
 import direction123.bakingapp.utilities.ApiUtils;
+import direction123.bakingapp.utilities.DBUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +77,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
 
                 if(response.isSuccessful()) {
+                    Log.v("ddd", "load successful");
                     mAdapter.setRecipeList(response.body());
+                    DBUtils.saveWidgetToDB(response.body());
+                    updateWidget();
                     Log.d("MainActivity", "posts loaded from API");
                     Log.v("xxx", String.valueOf(response.body().size()));
                 }else {
@@ -95,8 +101,16 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         List<Recipe> recipeList = mAdapter.getRecipeList();
-        if(recipeList != null) {
+        if (recipeList != null) {
             outState.putParcelableArrayList(RECIPE_LIST, new ArrayList<>(recipeList));
         }
+    }
+
+    private void updateWidget() {
+        Intent intent = new Intent(this, RecipeWidgetProvider.class);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        sendBroadcast(intent);
     }
 }

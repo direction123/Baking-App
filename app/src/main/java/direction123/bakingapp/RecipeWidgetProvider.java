@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import direction123.bakingapp.widget.WidgetRemoteViewsService;
@@ -30,6 +31,20 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.widget_title, homePendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.v("dddd", "broadcast receiver");
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
+        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), RecipeWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        if (appWidgetIds != null && appWidgetIds.length > 0) {
+            onUpdate(context, appWidgetManager, appWidgetIds);
+            for (int appWidgetId : appWidgetIds) {
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list_ivew);
+            }
         }
     }
 }
