@@ -77,12 +77,9 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
 
                 if(response.isSuccessful()) {
-                    Log.v("ddd", "load successful");
                     mAdapter.setRecipeList(response.body());
                     DBUtils.saveWidgetToDB(response.body());
                     updateWidget();
-                    Log.d("MainActivity", "posts loaded from API");
-                    Log.v("xxx", String.valueOf(response.body().size()));
                 }else {
                     int statusCode  = response.code();
                     // handle request errors depending on status code
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 Log.d("MainActivity", "error loading from API");
-
             }
         });
     }

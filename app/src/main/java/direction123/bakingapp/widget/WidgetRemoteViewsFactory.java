@@ -21,10 +21,8 @@ import direction123.bakingapp.models.Recipe;
  */
 //https://laaptu.wordpress.com/2013/07/19/android-app-widget-with-listview/
 public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
-    private ArrayList<Integer> mFavoriteRecipeList = new ArrayList<>();
     private List<RecipeWidget> mRecipeWidgetList = new ArrayList<>();
     private Context mContext = null;
-    private int mWidgetId;
 
     public WidgetRemoteViewsFactory(Context context) {
         this.mContext = context;
@@ -35,9 +33,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
     }
 
     private void loadRecipeItem() {
-        for (int i = 0; i < 10; i++) {
-            mFavoriteRecipeList.add(i);
-        }
         mRecipeWidgetList = new Select()
                     .from(RecipeWidget.class)
                     .orderBy("recipe_id ASC")
@@ -61,8 +56,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public RemoteViews getViewAt(int position) {
-        Log.v("xxddddx", String.valueOf(mRecipeWidgetList.size()));
-
         RemoteViews remoteViews = new RemoteViews(
                 mContext.getPackageName(), R.layout.widget_list_item
         );
@@ -84,8 +77,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public void onDataSetChanged() {
-        Log.v("xxx", "ondatasetchanged");
-        Log.v("xxx", String.valueOf(mRecipeWidgetList.size()));
         loadRecipeItem();
     }
 
