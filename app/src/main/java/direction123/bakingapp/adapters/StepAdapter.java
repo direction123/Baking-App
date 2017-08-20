@@ -1,9 +1,7 @@
 package direction123.bakingapp.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import direction123.bakingapp.R;
-import direction123.bakingapp.models.Recipe;
 import direction123.bakingapp.models.Step;
 
 /**

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import direction123.bakingapp.models.Recipe;
-import direction123.bakingapp.models.Step;
 
 public class StepDetailActivity extends AppCompatActivity {
     private String RECIPE = "recipe";
