@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     private void loadRecipeData() {
-      //  new FetchRecipeTask(mRecyclerView, mAdapter, mLoadingIndicator, mErrorMessageDisplay).execute();
         mService.getRecipes().enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
