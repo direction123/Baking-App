@@ -9,8 +9,8 @@ import com.activeandroid.annotation.Table;
  */
 
 @Table(name = "steps")
-public class Step extends Model {
-    @Column(name = "id")
+public class StepDB extends Model {
+    @Column(name = "step_id")
     public int id;
 
     @Column(name = "short_description")
@@ -23,13 +23,13 @@ public class Step extends Model {
     public String videoURL;
 
     @Column(name = "recipe", onDelete = Column.ForeignKeyAction.CASCADE)
-    public Recipe recipe;
+    public RecipeDB recipe;
 
-    public Step() {
+    public StepDB() {
         super();
     }
 
-    public Step(int id, String shortDescription, String description, String videoURL, Recipe recipe) {
+    public StepDB(int id, String shortDescription, String description, String videoURL, RecipeDB recipe) {
         super();
         this.id = id;
         this.shortDescription = shortDescription;

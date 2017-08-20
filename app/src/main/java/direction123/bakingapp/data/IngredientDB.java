@@ -9,8 +9,8 @@ import com.activeandroid.annotation.Table;
  */
 
 @Table(name = "ingredients")
-public class Ingredient extends Model {
-    @Column(name = "id")
+public class IngredientDB extends Model {
+    @Column(name = "ingredient_id")
     public int id;
 
     @Column(name = "quantity")
@@ -23,13 +23,13 @@ public class Ingredient extends Model {
     public String ingredient;
 
     @Column(name = "recipe", onDelete = Column.ForeignKeyAction.CASCADE)
-    public Recipe recipe;
+    public RecipeDB recipe;
 
-    public Ingredient() {
+    public IngredientDB() {
         super();
     }
 
-    public Ingredient(int id, double quantity, String measure, String ingredient, Recipe recipe) {
+    public IngredientDB(int id, double quantity, String measure, String ingredient, RecipeDB recipe) {
         super();
         this.id = id;
         this.quantity = quantity;

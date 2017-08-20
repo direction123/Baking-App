@@ -11,8 +11,8 @@ import java.util.List;
  */
 
 @Table(name = "recipes")
-public class Recipe  extends Model {
-    @Column(name = "id")
+public class RecipeDB extends Model {
+    @Column(name = "recipe_id")
     public int id;
 
     @Column(name = "name")
@@ -21,22 +21,22 @@ public class Recipe  extends Model {
     @Column(name = "servings")
     public int servings;
 
-    public Recipe() {
+    public RecipeDB() {
         super();
     }
 
-    public Recipe(int id, String name, int servings) {
+    public RecipeDB(int id, String name, int servings) {
         super();
         this.id = id;
         this.name = name;
         this.servings = servings;
     }
 
-    public List<Ingredient> Ingredients() {
-        return getMany(Ingredient.class, "Recipe");
+    public List<IngredientDB> Ingredients() {
+        return getMany(IngredientDB.class, "Recipe");
     }
 
-    public List<Step> Steps() {
-        return getMany(Step.class, "Recipe");
+    public List<StepDB> Steps() {
+        return getMany(StepDB.class, "Recipe");
     }
 }
