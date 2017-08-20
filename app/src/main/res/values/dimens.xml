@@ -10,6 +10,9 @@
     <dimen name="body_text_size">18sp</dimen>
     <dimen name="recipe_item_title_text_size">24sp</dimen>
     <dimen name="recipe_item_subtitle_text_size">12sp</dimen>
+    <dimen name="widget_title_size">18sp</dimen>
+    <dimen name="widget_sub_title_size">14sp</dimen>
+    <dimen name="widget_body_size">16sp</dimen>
     <dimen name="progress_bar_length">42dp</dimen>
     <dimen name="step_video_height">250dp</dimen>
 
