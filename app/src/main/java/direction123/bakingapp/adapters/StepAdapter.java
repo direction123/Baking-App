@@ -6,8 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -32,12 +35,14 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.stepViewHolder
     public class stepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mIdView;
         public TextView mShortDescriptionView;
+        public ImageView mThumbNailView;
         public LinearLayout mLinearLayout;
 
         public stepViewHolder(View view) {
             super(view);
             mIdView = (TextView) view.findViewById(R.id.step_id);
             mShortDescriptionView = (TextView) view.findViewById(R.id.step_short_description);
+            mThumbNailView = (ImageView) view.findViewById(R.id.step_thumbnail);
             mLinearLayout = (LinearLayout) view.findViewById(R.id.step_item_linearLayout);
             view.setOnClickListener(this);
         }
@@ -81,18 +86,29 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.stepViewHolder
         Step step = mStepList.get(position);
 
         TextView idView = holder.mIdView;
-        String name = String.valueOf(step.getId());
-        idView.setText(name + ". ");
+        String name = "Step " + step.getId() + ". ";
+        idView.setText(name);
 
         TextView servingView = holder.mShortDescriptionView;
         String shortDescription = step.getShortDescription();
         servingView.setText(shortDescription);
+
+        ImageView thumbnailView = holder.mThumbNailView;
+        if (step.getThumbnailURL()!= null && !step.getThumbnailURL().isEmpty()) {
+            Picasso.with(thumbnailView.getContext())
+                    .load(step.getThumbnailURL())
+                    .error(R.drawable.ic_insert_photo)
+                    .into(thumbnailView);
+        } else {
+            thumbnailView.setImageResource(R.drawable.ic_insert_photo);
+        }
 
         holder.mLinearLayout.setBackgroundColor(
                 mSelectedPosition == position ?
                         ContextCompat.getColor(mContext, R.color.colorPrimaryDark):
                         ContextCompat.getColor(mContext, R.color.colorWhite)
         );
+
     }
 
     public void setStepList(List<Step> stepList){
