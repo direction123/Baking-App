@@ -15,7 +15,7 @@ import direction123.bakingapp.models.Recipe;
  * Created by fangxiangwang on 8/19/17.
  */
 
-public class DBUtils {
+final public class DBUtils {
     public static void saveWidgetToDB (List<Recipe> recipeList) {
         for(int i = 0; i < recipeList.size(); i++) {
             Recipe recipe = recipeList.get(i);
