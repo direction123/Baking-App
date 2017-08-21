@@ -41,7 +41,7 @@ public class StepDetailFragment extends Fragment {
     private String mMediaUrl;
     private long mCurrentPosition = 0;
     private SimpleExoPlayer mExoPlayer;
-    private boolean mPlayWhenReady = false;
+    private boolean mPlayWhenReady = true;
 
     @BindView(R.id.step_description) TextView mDescriptionView;
     @BindView(R.id.step_prev_button) ImageButton mPreButton;
@@ -145,26 +145,12 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void releasePlayer() {
-        if(mExoPlayer != null) {
+        if (mExoPlayer != null) {
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
         }
     }
-
-    private void stopPlayer() {
-        if(mExoPlayer != null) {
-            mExoPlayer.stop();
-        }
-    }
-
-    private void startPlayer(long stopPosition) {
-        if(mExoPlayer != null) {
-            mExoPlayer.seekTo(stopPosition);
-            mExoPlayer.setPlayWhenReady(true);
-        }
-    }
-
 
     //reference: https://codelabs.developers.google.com/codelabs/exoplayer-intro/index.html?index=..%2F..%2Findex#2
     private void hideSystemUi() {
@@ -240,19 +226,15 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(mExoPlayer != null) {
-            long stopPosition = getActivity().getIntent().getLongExtra(PLAY_POSITION_ON_STOP, 0);
-            initializePlayer(Uri.parse(mMediaUrl), stopPosition);
-        }
+        long stopPosition = getActivity().getIntent().getLongExtra(PLAY_POSITION_ON_STOP, 0);
+        initializePlayer(Uri.parse(mMediaUrl), stopPosition);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        stopPlayer();
-        if(mExoPlayer != null) {
-            getActivity().getIntent().putExtra(PLAY_POSITION_ON_STOP, mExoPlayer.getCurrentPosition());
-        }
+        getActivity().getIntent().putExtra(PLAY_POSITION_ON_STOP, mExoPlayer.getCurrentPosition());
+        releasePlayer();
     }
 
     @Override
