@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,7 +28,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
     @BindView(R.id.recyclerview_recipes) RecyclerView mRecyclerView;
-    @BindView(R.id.loading_indicator) ProgressBar mLoadingIndicator;
     @BindView(R.id.error_message_display) TextView mErrorMessageDisplay;
 
     private RecipeAdapter mAdapter;
@@ -78,14 +78,15 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
                     DBUtils.saveWidgetToDB(response.body());
                     updateWidget();
                 }else {
-                    int statusCode  = response.code();
-                    // handle request errors depending on status code
+                    mRecyclerView.setVisibility(View.INVISIBLE);
+                    mErrorMessageDisplay.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                Log.d("MainActivity", "error loading from API");
+                mRecyclerView.setVisibility(View.INVISIBLE);
+                mErrorMessageDisplay.setVisibility(View.VISIBLE);
             }
         });
     }

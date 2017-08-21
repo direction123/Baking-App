@@ -21,11 +21,4 @@
         android:text="@string/error_message"
         android:textSize="@dimen/body_text_size"
         android:visibility="invisible" />
-
-    <ProgressBar
-        android:id="@+id/loading_indicator"
-        android:layout_height="@dimen/progress_bar_length"
-        android:layout_width="@dimen/progress_bar_length"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
 </FrameLayout>
