@@ -1,13 +1,21 @@
 package direction123.bakingapp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import direction123.bakingapp.models.Recipe;
 import direction123.bakingapp.models.Step;
+import direction123.bakingapp.utilities.DBUtils;
 
 public class StepListActivity extends AppCompatActivity implements StepListFragment.OnStepClickListener{
     private Recipe mRecipe;
@@ -89,5 +97,26 @@ public class StepListActivity extends AppCompatActivity implements StepListFragm
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mRecipe = savedInstanceState.getParcelable(RECIPE);
+    }
+
+    public void toggleWidget (View v) {
+        Button button = (Button) v;
+        String text = button.getText().toString();
+        if (text.equals(getString(R.string.add_to_widget))) {
+            button.setText(getString(R.string.remove_from_widget));
+            DBUtils.saveWidgetToDB(mRecipe);
+        } else if (text.equals(getString(R.string.remove_from_widget))) {
+            button.setText(getString(R.string.add_to_widget));
+            DBUtils.deleteWidgetFromDB(mRecipe);
+        }
+        updateWidget();
+    }
+
+    private void updateWidget() {
+        Intent intent = new Intent(this, RecipeWidgetProvider.class);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        sendBroadcast(intent);
     }
 }

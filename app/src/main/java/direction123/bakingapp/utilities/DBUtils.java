@@ -16,10 +16,8 @@ import direction123.bakingapp.models.Recipe;
  */
 
 public class DBUtils {
-    public static void saveWidgetToDB (List<Recipe> recipeList) {
-        for(int i = 0; i < recipeList.size(); i++) {
-            Recipe recipe = recipeList.get(i);
-            if(recipe != null) {
+    public static void saveWidgetToDB (Recipe recipe) {
+        if(recipe != null) {
                 new Delete().from(RecipeWidget.class).where("recipe_id = ?",recipe.getId()).execute();
                 RecipeWidget recipeWidget = new RecipeWidget(
                         recipe.getId(),
@@ -28,8 +26,12 @@ public class DBUtils {
                         recipe.getIngredients()
                 );
                 recipeWidget.save();
-            }
+        }
+    }
 
+    public static void deleteWidgetFromDB (Recipe recipe) {
+        if(recipe != null) {
+            new Delete().from(RecipeWidget.class).where("recipe_id = ?",recipe.getId()).execute();
         }
     }
 }

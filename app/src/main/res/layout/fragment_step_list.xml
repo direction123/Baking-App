@@ -41,6 +41,19 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_widget"
+            android:layout_gravity="right"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="@dimen/layout_padding_s"
+            android:paddingRight="@dimen/layout_padding_s"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="@dimen/layout_padding_s"
+            android:onClick="toggleWidget"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_steps"
             android:layout_width="match_parent"

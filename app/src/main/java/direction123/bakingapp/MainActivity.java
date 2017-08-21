@@ -9,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import direction123.bakingapp.adapters.RecipeAdapter;
 import direction123.bakingapp.models.Recipe;
 import direction123.bakingapp.models.SOService;
 import direction123.bakingapp.utilities.ApiUtils;
-import direction123.bakingapp.utilities.DBUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
                 if(response.isSuccessful()) {
                     mAdapter.setRecipeList(response.body());
-                    DBUtils.saveWidgetToDB(response.body());
                     updateWidget();
                 }else {
                     mRecyclerView.setVisibility(View.INVISIBLE);
