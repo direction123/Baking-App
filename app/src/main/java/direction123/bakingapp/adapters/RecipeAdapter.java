@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,11 +31,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mNameView;
         public TextView mServingsView;
+        public ImageView mThumbnailView;
 
         public RecipeViewHolder(View view) {
             super(view);
             mNameView = (TextView) view.findViewById(R.id.recipe_item_name);
             mServingsView = (TextView) view.findViewById(R.id.recipe_item_servings);
+            mThumbnailView = (ImageView) view.findViewById(R.id.recipe_item_thumbnail);
             view.setOnClickListener(this);
         }
 
@@ -77,6 +82,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         int servings = recipe.getServings();
         String servingsText = "Servings: " + String.valueOf(servings);
         servingView.setText(servingsText);
+
+        ImageView thumbnailView = holder.mThumbnailView;
+        if (recipe.getImage()!= null && !recipe.getImage().isEmpty()) {
+            Picasso.with(thumbnailView.getContext())
+                    .load(recipe.getImage())
+                    .error(R.drawable.ic_local_dining)
+                    .into(thumbnailView);
+        } else {
+            thumbnailView.setImageResource(R.drawable.ic_local_dining);
+        }
     }
 
     public void setRecipeList(List<Recipe> recipeList){
