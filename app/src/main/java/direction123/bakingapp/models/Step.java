@@ -26,6 +26,10 @@ public class Step implements Parcelable {
     @Expose
     private String mThumbnailURL;
 
+    public Step() {
+
+    }
+
     public int getId() {
         return mId;
     }

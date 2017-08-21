@@ -33,6 +33,10 @@ public class Recipe implements Parcelable {
     @Expose
     private String mImage;
 
+    public Recipe() {
+
+    }
+
     public int getId() {
         return mId;
     }
@@ -47,6 +51,10 @@ public class Recipe implements Parcelable {
 
     public void setName(String name) {
         this.mName = name;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.mIngredients = ingredients;
     }
 
     public String getIngredients() {
