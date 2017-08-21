@@ -35,11 +35,13 @@ public class StepDetailFragment extends Fragment {
     private static String RECIPE = "recipe";
     private static String STEP_ID = "step_id";
     private String VIDEO_PLAY_POSITION = "video_play_position";
+    private String PLAY_POSITION_ON_STOP = "video_play_position";
     private Recipe mRecipe;
     private int mStepId;
+    private String mMediaUrl;
     private long mCurrentPosition = 0;
     private SimpleExoPlayer mExoPlayer;
-    private boolean mPlayWhenReady = true;
+    private boolean mPlayWhenReady = false;
 
     @BindView(R.id.step_description) TextView mDescriptionView;
     @BindView(R.id.step_prev_button) ImageButton mPreButton;
@@ -133,6 +135,7 @@ public class StepDetailFragment extends Fragment {
             mExoPlayer.setPlayWhenReady(mPlayWhenReady);
         }
         if(mediaUri != null) {
+            mMediaUrl = mediaUri.toString();
             MediaSource mediaSource = buildMediaSource(mediaUri);
             if (mExoPlayer != null && mediaSource != null) {
                 mExoPlayer.prepare(mediaSource);
@@ -148,6 +151,20 @@ public class StepDetailFragment extends Fragment {
             mExoPlayer = null;
         }
     }
+
+    private void stopPlayer() {
+        if(mExoPlayer != null) {
+            mExoPlayer.stop();
+        }
+    }
+
+    private void startPlayer(long stopPosition) {
+        if(mExoPlayer != null) {
+            mExoPlayer.seekTo(stopPosition);
+            mExoPlayer.setPlayWhenReady(true);
+        }
+    }
+
 
     //reference: https://codelabs.developers.google.com/codelabs/exoplayer-intro/index.html?index=..%2F..%2Findex#2
     private void hideSystemUi() {
@@ -218,6 +235,24 @@ public class StepDetailFragment extends Fragment {
     private boolean isTablet() {
         Configuration config = getResources().getConfiguration();
         return config.smallestScreenWidthDp >= 600;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(mExoPlayer != null) {
+            long stopPosition = getActivity().getIntent().getLongExtra(PLAY_POSITION_ON_STOP, 0);
+            initializePlayer(Uri.parse(mMediaUrl), stopPosition);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stopPlayer();
+        if(mExoPlayer != null) {
+            getActivity().getIntent().putExtra(PLAY_POSITION_ON_STOP, mExoPlayer.getCurrentPosition());
+        }
     }
 
     @Override
