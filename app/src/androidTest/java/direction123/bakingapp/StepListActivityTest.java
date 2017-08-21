@@ -45,12 +45,20 @@ public class StepListActivityTest {
         ingredientList.add(ingredient1);
         ingredientList.add(ingredient2);
 
-        Step step1 = new Step();
-        step1.setVideoURL("https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
-        step1.setShortDescription("Recipe Introduction");
-        Step step2 = new Step();
-        step2.setVideoURL("");
-        step2.setShortDescription("Starting prep");
+        Step step1 = new Step(
+                0,
+                "Recipe Introduction",
+                "Recipe Introduction",
+                "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4",
+                ""
+        );
+        Step step2 = new Step(
+                1,
+                "Starting prep",
+                "Starting prep",
+                "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4",
+                ""
+        );
         List<Step> stepList = new ArrayList<>();
         stepList.add(step1);
         stepList.add(step2);
