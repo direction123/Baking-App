@@ -4,8 +4,6 @@ This app allows a user to select a recipe and see video-guided steps, with a res
 
 
 ## Screenshots on phonts
-<br/>
-<br/>
 <p float="left">
   <img src="https://github.com/direction123/Baking-App/blob/master/screenshots/Screenshot_1506380802.png" width="200" />
   <img src="https://github.com/direction123/Baking-App/blob/master/screenshots/Screenshot_1506380810.png" width="200" /> 
@@ -13,8 +11,6 @@ This app allows a user to select a recipe and see video-guided steps, with a res
 </p>
 
 ## Screenshots on tablets
-<br/>
-<br/>
 <p float="left">
   <img src="https://github.com/direction123/Baking-App/blob/master/screenshots/Screenshot_1506381665.png" width="200" />
   <img src="https://github.com/direction123/Baking-App/blob/master/screenshots/Screenshot_1506381684.png" width="200" /> 
